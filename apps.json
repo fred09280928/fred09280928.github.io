@@ -12,5 +12,12 @@
     "url": "/KRInput/",
     "tags": ["語言", "打字"],
     "status": "live"
+  },
+  {
+    "name": "ESFlash",
+    "desc": "西班牙文單字測驗（D1 版）：打字判定、重音寬鬆／嚴格、weight 加權抽題。",
+    "url": "https://esflash-d1.fred0928.workers.dev/",
+    "tags": ["語言", "測驗"],
+    "status": "live"
   }
 ]

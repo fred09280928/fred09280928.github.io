@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Pitchy",
+    "desc": "視譜與音高訓練：五線譜、鋼琴鍵盤、即時回饋。",
+    "url": "/pitchy/",
+    "tags": ["音樂", "練習"],
+    "status": "live"
+  },
+  {
+    "name": "KRInput",
+    "desc": "韓文 두벌식 打字練習：逐鍵評分、next-key 提示、heatmap。",
+    "url": "/KRInput/",
+    "tags": ["語言", "打字"],
+    "status": "live"
+  }
+]

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fred09280928 · 作品選單</title>
+<meta name="description" content="fred09280928 的瀏覽器小工具選單：Pitchy、KRInput，以及之後新增的程式。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111'/><text x='50' y='68' font-size='54' font-family='system-ui' text-anchor='middle' fill='%23fff'>F</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header class="head">
+    <h1>fred09280928</h1>
+    <p class="sub">可以直接在瀏覽器裡跑的程式。全部是純前端，不需要安裝。</p>
+  </header>
+
+  <section id="apps" class="grid" aria-label="程式清單"></section>
+
+  <footer class="foot">
+    <span id="count"></span>
+    <span class="sep">·</span>
+    <a href="https://github.com/fred09280928" rel="me">GitHub</a>
+  </footer>
+</main>
+
+<script>
+const TAGS_HIDDEN = new Set([]); // 預留：若要隱藏某些 tag 的分類
+
+function card(app) {
+  const a = document.createElement("a");
+  a.className = "card" + (app.status === "soon" ? " soon" : "");
+  a.href = app.url;
+  a.rel = "noopener";
+  if (app.status === "soon") a.setAttribute("aria-disabled", "true");
+
+  const dot = app.status === "live" ? "dot live" : "dot";
+  a.innerHTML =
+    `<div class="row"><h2>${esc(app.name)}</h2><span class="${dot}" title="${app.status === "live" ? "已上線" : "施工中"}"></span></div>` +
+    `<p class="desc">${esc(app.desc || "")}</p>` +
+    (app.tags && app.tags.length
+      ? `<ul class="tags">${app.tags.filter(t => !TAGS_HIDDEN.has(t)).map(t => `<li>${esc(t)}</li>`).join("")}</ul>`
+      : "");
+  return a;
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+fetch("apps.json", { cache: "no-store" })
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(list => {
+    const box = document.getElementById("apps");
+    list.forEach(app => box.appendChild(card(app)));
+    const live = list.filter(a => a.status === "live").length;
+    document.getElementById("count").textContent = `${live} 個程式上線`;
+  })
+  .catch(err => {
+    document.getElementById("apps").innerHTML =
+      `<p class="err">清單載入失敗（${err}）。請直接開 <a href="/pitchy/">Pitchy</a> 或 <a href="/KRInput/">KRInput</a>。</p>`;
+  });
+</script>
+</body>
+</html>
